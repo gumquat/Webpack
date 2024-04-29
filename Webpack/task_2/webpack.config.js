@@ -49,6 +49,16 @@ module.exports = {
           },
         ],
       },
+      // Rule to handle file loading (e.g., fonts)
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: 'fonts/[name].[ext]', // Output directory for fonts
+          },
+        },
+      },
     ],
   },
 };
