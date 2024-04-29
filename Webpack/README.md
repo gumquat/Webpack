@@ -7,4 +7,6 @@ Install JQuery as a regular dependency
 `npm install jquery --save`
 
 After you've finished, to put it into motion and display on the web
-`npx webpack --mode=production`
+AKA how to run webpack (make sure your in the right directory first)
+`npx webpack --mode=production` for task_0
+`npm run build` for all other tasks
