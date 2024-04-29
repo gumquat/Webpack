@@ -11,7 +11,9 @@ module.exports = {
   output: {
     filename: '[name].bundle.js', // Generates separate bundles for each entry point
     path: path.resolve(__dirname, 'public'), // Specifies the output directory
+    devtoolModuleFilenameTemplate: 'webpack:///[resource-path]', // Added for better source map resolution
   },
+  devtool: 'inline-source-map', // Enable inline source mapping
   module: {
     rules: [
       // Rule to handle CSS files
