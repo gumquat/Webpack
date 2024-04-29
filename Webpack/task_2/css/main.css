@@ -10,8 +10,8 @@
   #logo {
     width: 200px;
     height: 200px;
-    background: url('../assets/holberton-logo.jpg');
-    background-size: cover; /* Ensure the image covers the entire element */
-    background-repeat: no-repeat; /* Prevent background image from repeating */
+    background-image: url('../assets/holberton-logo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
   }
   
