@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'development', // Set webpack mode to development
@@ -74,7 +75,26 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html', // Specify the HTML template file
+      title: 'My Application', // Set the title of the generated HTML file
+      template: './src/index.html', // Specify the template HTML file
+      inject: true, // Automatically inject bundle scripts into the HTML file
     }),
+    new CleanWebpackPlugin(), // Add this line
   ],
+  optimization: {
+    runtimeChunk: 'single', // Extracts the runtime code into a separate chunk
+    splitChunks: {
+      chunks: 'all', // Enables code splitting for all chunks
+      maxInitialRequests: Infinity, // Makes the bundle be normallized to reduce requests
+      minSize: 0, // This rule is disabling minimum file size to use
+      cacheGroups: {
+        // Split vendor code from the application code
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
+  },
 };
