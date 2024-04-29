@@ -1,13 +1,17 @@
 /* Position counter text to the right of the button and make it bold */
 #count {
     font-weight: bold;
-    margin-left: 10px; /* Adjust as needed */
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
   }
   
   /* Add element at the top of the document with id #logo */
   #logo {
+    width: 200px;
+    height: 200px;
     background: url('../assets/holberton-logo.jpg');
-    background-size: 200px 200px; /* Ensure the image covers the entire element */
+    background-size: cover; /* Ensure the image covers the entire element */
     background-repeat: no-repeat; /* Prevent background image from repeating */
   }
   
