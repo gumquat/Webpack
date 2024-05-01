@@ -70,7 +70,7 @@ module.exports = {
     ],
   },
   devServer: {
-    contentBase: path.join(__dirname, 'public'), // Serve files from the public directory
+    contentBase: './public', // Serve files from the public directory
     port: 8564, // Specify the port for the development server
   },
   plugins: [
