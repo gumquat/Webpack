@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './src/index.js',
@@ -12,12 +13,10 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-          },
-        },
+        use: [
+          'babel-loader',
+          'react-hot-loader/babel', // Add this line
+        ],
       },
       {
         test: /\.css$/,
@@ -29,6 +28,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
+    new webpack.HotModuleReplacementPlugin(),
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -37,5 +37,7 @@ module.exports = {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 3000,
+    hot: true, // Enable hot module replacement
+    liveReload: true, // Enable live reloading
   },
 };

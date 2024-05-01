@@ -5,7 +5,7 @@ import holbertonLogo from './holberton-logo.jpg'; // Import the Holberton logo
 import { Notifications } from './Notifications';
 
 
-/* footer module */
+/* in-file webpage footer module */
 const footerContent = () => {
   return (
     <footer className="App-footer">
@@ -29,7 +29,7 @@ const footerContent = () => {
             Login to access the full dashboard
           </p>
         </body>
-        {/* {Notifications()} */}
+        {Notifications()}
         {footerContent()}
       </div>
     );
