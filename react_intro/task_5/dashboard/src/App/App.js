@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import { getFullYear, getFooterCopy } from './utils';
+import { getFullYear, getFooterCopy } from '../utils/utils';
 import holbertonLogo from './holberton-logo.jpg'; // Import the Holberton logo
-import { Notifications } from './Notifications';
+import { Notifications } from '../Notifications/Notifications';
 
 
 /* in-file webpage footer module */

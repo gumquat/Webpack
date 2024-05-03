@@ -1,6 +1,6 @@
 import React from "react";
 import './Notifications.css';
-import { getLatestNotification } from './utils';
+import { getLatestNotification } from '../utils/utils';
 
 const handleButtonClick = () => {
   console.log("Close button has been clicked");
