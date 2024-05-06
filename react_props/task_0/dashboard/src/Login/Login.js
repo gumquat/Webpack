@@ -3,7 +3,7 @@ import './Login.css';
 
 function Login() {
   return (
-    <div className="App-body">
+    <div className="login-form">
         <p>
           Login to access the full dashboard
         </p>

@@ -11,7 +11,11 @@ function App() {
       <Notifications />
       <div className="App">
         <Header />
-        <Login />
+        <body>
+          <div className="App-body">
+          <Login />
+          </div>
+        </body>
         <Footer />
       </div>
     </>
