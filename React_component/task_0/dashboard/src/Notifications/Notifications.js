@@ -2,6 +2,7 @@ import React from "react";
 import './Notifications.css';
 import { getLatestNotification } from '../utils/utils';
 import NotificationItem from "./NotificationItem";
+import { NotificationItemShape } from './NotificationItemShape';
 import PropTypes from 'prop-types';
 
 export function Notifications( {displayDrawer }) {
