@@ -60,4 +60,48 @@ describe('Notifications component', () => {
 
     consoleSpy.mockRestore();
   });
+
+  // New tests for rerendering based on listNotifications prop changes
+  test('does not rerender when updating props with the same listNotifications', () => {
+    const listNotifications = [
+      { id: 1, type: 'default', value: 'New course available' },
+      { id: 2, type: 'urgent', value: 'New resume available' },
+    ];
+    const wrapper = shallow(
+      <Notifications displayDrawer={true} listNotifications={listNotifications} />
+    );
+
+    const shouldComponentUpdateSpy = jest.spyOn(Notifications.prototype, 'shouldComponentUpdate');
+
+    wrapper.setProps({ displayDrawer: true, listNotifications: [...listNotifications] });
+
+    expect(shouldComponentUpdateSpy).toHaveBeenCalledTimes(1);
+    expect(shouldComponentUpdateSpy).toHaveLastReturnedWith(false);
+
+    shouldComponentUpdateSpy.mockRestore();
+  });
+
+  test('rerenders when updating props with a longer listNotifications', () => {
+    const listNotifications = [
+      { id: 1, type: 'default', value: 'New course available' },
+      { id: 2, type: 'urgent', value: 'New resume available' },
+    ];
+    const wrapper = shallow(
+      <Notifications displayDrawer={true} listNotifications={listNotifications} />
+    );
+
+    const shouldComponentUpdateSpy = jest.spyOn(Notifications.prototype, 'shouldComponentUpdate');
+
+    const longerListNotifications = [
+      ...listNotifications,
+      { id: 3, type: 'urgent', value: 'New notification' },
+    ];
+
+    wrapper.setProps({ displayDrawer: true, listNotifications: longerListNotifications });
+
+    expect(shouldComponentUpdateSpy).toHaveBeenCalledTimes(1);
+    expect(shouldComponentUpdateSpy).toHaveLastReturnedWith(true);
+
+    shouldComponentUpdateSpy.mockRestore();
+  });
 });
