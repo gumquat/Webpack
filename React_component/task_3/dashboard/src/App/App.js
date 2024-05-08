@@ -6,6 +6,8 @@ import Footer from '../Footer/Footer';
 import Login from '../Login/Login';
 import CourseList from '../CourseList/CourseList';
 import PropTypes from 'prop-types';
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
+import BodySection from '../BodySection/BodySection';
 
 class App extends React.Component {
   constructor(props) {
@@ -50,7 +52,18 @@ class App extends React.Component {
           <Notifications listNotifications={this.listNotifications} />
           <body>
             <div className="App-body">
-              {isLoggedIn ? <CourseList listCourses={this.listCourses} /> : <Login />}
+              {isLoggedIn ? (
+                <BodySectionWithMarginBottom title="Course list">
+                  <CourseList listCourses={this.listCourses} />
+                </BodySectionWithMarginBottom>
+              ) : (
+                <BodySectionWithMarginBottom title="Log in to continue">
+                  <Login />
+                </BodySectionWithMarginBottom>
+              )}
+              <BodySection title="News from the School">
+                <p>Today in peepeepoopoo village 30 thousands deaths from lack of access to bathrooms. People are exploding from their towns namesake condition, peepeepoopoo disease.</p>
+              </BodySection>
             </div>
           </body>
           <Footer />
