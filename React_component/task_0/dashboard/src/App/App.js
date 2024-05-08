@@ -24,6 +24,21 @@ class App extends React.Component {
     ];
   }
 
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown = (event) => {
+    if (event.ctrlKey && event.key.toLowerCase() === 'h') {
+      console.log('Logging you out');
+      this.props.logOut();
+    }
+  }
+
   render() {
     const { isLoggedIn } = this.props;
 
@@ -47,10 +62,12 @@ class App extends React.Component {
 
 App.propTypes = {
   isLoggedIn: PropTypes.bool,
+  logOut: PropTypes.func,
 };
 
 App.defaultProps = {
   isLoggedIn: false,
+  logOut: () => {},
 };
 
 export default App;
