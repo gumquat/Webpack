@@ -62,7 +62,7 @@ class App extends React.Component {
                 </BodySectionWithMarginBottom>
               )}
               <BodySection title="News from the School">
-                <p>Today in peepeepoopoo village 30 thousands deaths from lack of access to bathrooms. People are exploding from their towns namesake condition, peepeepoopoo disease.</p>
+                <p>THIS IS RENDERING OVER 'Login to continue' Today in peepeepoopoo village 30 thousands deaths from lack of access to bathrooms. People are exploding from their towns namesake condition, peepeepoopoo disease.</p>
               </BodySection>
             </div>
           </body>

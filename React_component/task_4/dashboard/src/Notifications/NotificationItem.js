@@ -1,24 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class NotificationItem extends React.Component {
-  handleClick = () => {
-    const { markAsRead, id } = this.props;
+const NotificationItem = React.memo(function NotificationItem({ id, type = 'default', html, value, markAsRead }) {
+  const handleClick = () => {
     markAsRead(id);
-  }
+  };
 
-  render() {
-    const { type = 'default', html, value } = this.props;
+  const listItemContent = html ? (
+    <li data-notification-type={type} dangerouslySetInnerHTML={html} onClick={handleClick}></li>
+  ) : (
+    <li data-notification-type={type} onClick={handleClick}>{value}</li>
+  );
 
-    const listItemContent = html ? (
-      <li data-notification-type={type} dangerouslySetInnerHTML={html} onClick={this.handleClick}></li>
-    ) : (
-      <li data-notification-type={type} onClick={this.handleClick}>{value}</li>
-    );
-
-    return listItemContent;
-  }
-}
+  return listItemContent;
+});
 
 NotificationItem.propTypes = {
   html: PropTypes.shape({
@@ -27,12 +22,12 @@ NotificationItem.propTypes = {
   type: PropTypes.string,
   value: PropTypes.string,
   markAsRead: PropTypes.func,
-  id: PropTypes.number.isRequired, // Add prop type for id
+  id: PropTypes.number.isRequired,
 };
 
 NotificationItem.defaultProps = {
   type: 'default',
-  markAsRead: () => {}, // Add default prop for markAsRead
+  markAsRead: () => {},
 };
 
 export default NotificationItem;
