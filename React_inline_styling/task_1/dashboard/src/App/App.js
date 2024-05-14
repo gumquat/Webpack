@@ -94,7 +94,7 @@ class App extends React.Component {
               </BodySection>
                 </BodySectionWithMarginBottom>
               ) : (
-                <BodySectionWithMarginBottom title="Log in to continue">
+                <BodySectionWithMarginBottom>
                   <Login />
                 </BodySectionWithMarginBottom>
               )}
