@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
 
-  appBody: {
+  body: {
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
@@ -83,7 +83,7 @@ class App extends React.Component {
         <Notifications listNotifications={this.listNotifications} />
         <div className={css(styles.app)}>
           <Header />
-          <div className={css(styles.appBody)}>
+          <div className={css(styles.body)}>
               {isLoggedIn ? (
               <BodySectionWithMarginBottom title="Course list">
                 <CourseList listCourses={this.listCourses}/>
