@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'stretch',
+    alignItems: 'center',
     justifyContent: 'center',
     borderTop: '5px solid red',
     borderBottom: '5px solid red',
@@ -83,23 +83,20 @@ class App extends React.Component {
         <Notifications listNotifications={this.listNotifications} />
         <div className={css(styles.app)}>
           <Header />
-
-          <body>
           <div className={css(styles.appBody)}>
               {isLoggedIn ? (
-                <BodySectionWithMarginBottom title="Course list">
-                  <CourseList listCourses={this.listCourses} />
-                  <BodySection title="News from the School">
-                  <p>News from the School: School is CANCELED!</p>
-              </BodySection>
-                </BodySectionWithMarginBottom>
+              <BodySectionWithMarginBottom title="Course list">
+                <CourseList listCourses={this.listCourses}/>
+                <BodySection title="News from the School">
+                    <p>News from the School: School is CANCELED!</p>
+                </BodySection>
+              </BodySectionWithMarginBottom>
               ) : (
-                <BodySectionWithMarginBottom>
-                  <Login />
-                </BodySectionWithMarginBottom>
+              <BodySectionWithMarginBottom title='Log in to continue'>
+                <Login />
+              </BodySectionWithMarginBottom>
               )}
             </div>
-          </body>
           <Footer className={css(styles.footer)} />
         </div>
       </>
