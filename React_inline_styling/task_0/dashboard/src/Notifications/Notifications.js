@@ -5,15 +5,18 @@ import NotificationItem from "./NotificationItem";
 import { NotificationItemShape } from './NotificationItemShape';
 import PropTypes from 'prop-types';
 
-export function Notifications( {displayDrawer }) {
-
+class Notifications extends React.Component {
   // button function
-  const handleButtonClick = () => {
+  handleButtonClick = () => {
     console.log("Close button has been clicked");
   };
 
+  markAsRead = (id) => {
+    console.log(`Notification ${id} has been marked as read`);
+  }
+
   // styling
-  const buttonStyle = {
+  buttonStyle = {
     position: "absolute",
     top: "0.5rem",
     right: "0.5rem",
@@ -22,48 +25,54 @@ export function Notifications( {displayDrawer }) {
     cursor: "pointer"
   }
 
-  // what is returned to page
-  return (
-    <>
-      <div className="menuItem">
-        <p>Your Notifications</p>
-      </div>
-      {displayDrawer && (
-        <div className="Notifications">
-        <div className="root-notifications" style={{ width: "100%", boxSizing: "border-box" }}>
-        <div style={{ padding: "1rem", maxWidth: "800px" }}>
-          <div style={{ position: "relative" }}>
-            <button
-              style={buttonStyle}
-              aria-label="Close"
-              onClick={handleButtonClick}
-            >
-              x
-            </button>
-            <p>
-              Here is the list of notifications
-            </p>
-            <ul>
-            {listNotifications.length === 0 ? (
-                <NotificationItem value='No new notification for now' />
-              ) : (
-                listNotifications.map(notification => (
-                  <NotificationItem
-                    key={notification.id}
-                    type={notification.type}
-                    value={notification.value}
-                    html={notification.html}
-                  />
-                ))
-              )}
-            </ul>
+  shouldComponentUpdate(nextProps) {
+    return nextProps.listNotifications.length > this.props.listNotifications.length;
+  }
+
+  render() {
+    const { displayDrawer, listNotifications } = this.props;
+
+    return (
+      <>
+        {displayDrawer && (
+          <div className="Notifications">
+            <div className="root-notifications" style={{ width: "100%", boxSizing: "border-box" }}>
+              <div style={{ padding: "1rem", maxWidth: "800px" }}>
+                <div style={{ position: "relative" }}>
+                  <button
+                    style={this.buttonStyle}
+                    aria-label="Close"
+                    onClick={this.handleButtonClick}
+                  >
+                    x
+                  </button>
+                  <p>
+                    Here is the list of notifications
+                  </p>
+                  <ul>
+                    {listNotifications.length === 0 ? (
+                      <NotificationItem value='No new notification for now' />
+                    ) : (
+                      listNotifications.map(notification => (
+                        <NotificationItem
+                          key={notification.id} // redundant
+                          id={notification.id} // redundant
+                          type={notification.type}
+                          value={notification.value}
+                          html={notification.html}
+                          markAsRead={() => this.markAsRead(notification.id)} // Pass markAsRead as a prop
+                        />
+                      ))
+                    )}
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-    )}
-    </>
-  );
+        )}
+      </>
+    );
+  }
 }
 
 // its a bool that...

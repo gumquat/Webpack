@@ -1,12 +1,30 @@
-.App {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
+body, html {
+  height: 100%;
+  margin: 0;
 }
 
-.App-body {
+.App {
+  text-align: center;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative; */
+}
+
+.App-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 5px solid #00003C;
+}
+
+.App-notifications {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* .App-body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -17,7 +35,7 @@
   width: 100%;
   padding: 2rem 0;
   position: relative;
-}
+} */
 
 .App-body p {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;

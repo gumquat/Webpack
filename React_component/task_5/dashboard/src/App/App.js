@@ -13,59 +13,63 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.listCourses = [
-      { id: 1, name: 'ES6', credit: 60 },
-      { id: 2, name: 'Webpack', credit: 20 },
-      { id: 3, name: 'React', credit: 40 },
-    ];
-
-    this.listNotifications = [
-      { id: 1, type: 'default', value: 'New course available' },
-      { id: 2, type: 'urgent', value: 'New resume available' },
-      { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
-    ];
+    // changed for readability and scaled down
+    this.state = {
+      listCourses: [
+        { id: 1, name: 'ES6', credit: 60 },
+        { id: 2, name: 'Webpack', credit: 20 },
+        { id: 3, name: 'React', credit: 40 },
+      ],
+      listNotifications: [
+        { id: 1, type: 'default', value: 'New course available' },
+        { id: 2, type: 'urgent', value: 'New resume available' },
+        { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
+      ],
+    };
   }
 
+  // backend functionality
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
   }
-
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
-
   handleKeyDown = (event) => {
     if (event.ctrlKey && event.key.toLowerCase() === 'h') {
+      event.preventDefault();
       console.log('Logging you out');
       this.props.logOut();
     }
   }
 
+  // rendering
   render() {
     const { isLoggedIn } = this.props;
+    const { listCourses, listNotifications } = this.state;
 
     return (
       <>
-        <Notifications />
-        <div className="App">
+        <div className="App-header">
           <Header />
-          <Notifications listNotifications={this.listNotifications} />
-          <body>
-            <div className="App-body">
-              {isLoggedIn ? (
-                <BodySectionWithMarginBottom title="Course list">
-                  <CourseList listCourses={this.listCourses} />
-                </BodySectionWithMarginBottom>
-              ) : (
-                <BodySectionWithMarginBottom title="Log in to continue">
-                  <Login />
-                </BodySectionWithMarginBottom>
-              )}
-              <BodySection title="News from the School">
-                <p>THIS IS RENDERING OVER 'Login to continue' Today in peepeepoopoo village 30 thousands deaths from lack of access to bathrooms. People are exploding from their towns namesake condition, peepeepoopoo disease.</p>
-              </BodySection>
-            </div>
-          </body>
+          <div className="App-notifications">
+            <Notifications listNotifications={listNotifications} />
+          </div>
+        </div>
+
+        <div className="App">
+          {isLoggedIn ? (
+            <BodySectionWithMarginBottom title="Course list">
+              <CourseList listCourses={listCourses} />
+            </BodySectionWithMarginBottom>
+          ) : (
+            <BodySectionWithMarginBottom title="Log in to continue">
+              <Login />
+            </BodySectionWithMarginBottom>
+          )}
+          <BodySection title="News from the School">
+            <p>NEWS: School is canceled!</p>
+          </BodySection>
           <Footer />
         </div>
       </>

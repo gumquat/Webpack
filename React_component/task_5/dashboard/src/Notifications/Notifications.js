@@ -6,6 +6,7 @@ import { NotificationItemShape } from './NotificationItemShape';
 import PropTypes from 'prop-types';
 
 class Notifications extends React.Component {
+
   // button function
   handleButtonClick = () => {
     console.log("Close button has been clicked");
@@ -15,8 +16,14 @@ class Notifications extends React.Component {
     console.log(`Notification ${id} has been marked as read`);
   }
 
-  // styling
-  buttonStyle = {
+  shouldComponentUpdate(nextProps) {
+    return nextProps.listNotifications.length > this.props.listNotifications.length;
+  }
+
+  render() {
+    const { displayDrawer, listNotifications } = this.props;
+    // styling
+    buttonStyle = {
     position: "absolute",
     top: "0.5rem",
     right: "0.5rem",
@@ -25,18 +32,8 @@ class Notifications extends React.Component {
     cursor: "pointer"
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.listNotifications.length > this.props.listNotifications.length;
-  }
-
-  render() {
-    const { displayDrawer, listNotifications } = this.props;
-
     return (
       <>
-        <div className="menuItem">
-          <p>Your Notifications</p>
-        </div>
         {displayDrawer && (
           <div className="Notifications">
             <div className="root-notifications" style={{ width: "100%", boxSizing: "border-box" }}>
