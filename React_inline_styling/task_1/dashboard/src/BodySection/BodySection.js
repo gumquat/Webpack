@@ -10,8 +10,3 @@ const BodySection = ({ title, children }) => {
 };
 
 export default BodySection;
-
-// to render
-{/* <BodySection title="test">
-  <p>test</p>
-</BodySection> */}

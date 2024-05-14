@@ -1,5 +1,5 @@
 import React from "react";
-import './App.css';
+// import './App.css';
 import Notifications from "../Notifications/Notifications";
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -8,6 +8,40 @@ import CourseList from '../CourseList/CourseList';
 import PropTypes from 'prop-types';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import BodySection from '../BodySection/BodySection';
+import { StyleSheet, css } from 'aphrodite';
+
+const styles = StyleSheet.create({
+  app: {
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    position: 'relative',
+  },
+
+  appBody: {
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    borderTop: '5px solid red',
+    borderBottom: '5px solid red',
+    width: '100%',
+    padding: '2rem 0',
+    position: 'relative',
+  },
+
+  footer: {
+    fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+    fontWeight: 300,
+    fontSize: '1.3rem',
+    fontStyle: 'italic',
+    width: '100%',
+    textAlign: 'center',
+    padding: '1rem',
+  },
+});
 
 class App extends React.Component {
   constructor(props) {
@@ -43,19 +77,14 @@ class App extends React.Component {
 
   render() {
     const { isLoggedIn } = this.props;
-
-    // CourseListRow styling
-    const rowStyle = { backgroundColor: '#f5f5f5ab' };
-    const headerStyle = { backgroundColor: '#deb5b545' };
-
     return (
       <>
         <Notifications />
-        <div className="App">
+        <div className={css(styles.app)}>
           <Header />
           <Notifications listNotifications={this.listNotifications} />
           <body>
-            <div className="App-body">
+          <div className={css(styles.appBody)}>
               {isLoggedIn ? (
                 <BodySectionWithMarginBottom title="Course list">
                   <CourseList listCourses={this.listCourses} />
@@ -70,7 +99,7 @@ class App extends React.Component {
               )}
             </div>
           </body>
-          <Footer />
+          <Footer className={css(styles.footer)} />
         </div>
       </>
     );
