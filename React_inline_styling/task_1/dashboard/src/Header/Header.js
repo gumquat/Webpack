@@ -4,14 +4,23 @@ import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
   header: {
-    textAlign: 'center',
-    backgroundColor: '#282c34',
-    padding: '20px',
-    color: 'white',
+    backgroundColor: '#fff',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '100%',
+    padding: '1rem',
   },
   logo: {
-    width: '200px',
-    height: 'auto',
+    height: '12rem',
+    pointerEvents: 'none',
+  },
+  title: {
+    fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif',
+    fontSize: '3rem',
+    color: 'red',
+    fontWeight: 700,
+    marginLeft: '1rem',
   },
 });
 
