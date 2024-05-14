@@ -4,11 +4,8 @@
     margin: 1rem auto;
     font-family: 'Galano Grotesque Alt', sans-serif;
     font-weight: 400;
-  }
-  
-  #CourseList {
     border: 1px solid whitesmoke;
-  }
+}
   
   #CourseList thead th[colspan="2"] {
     text-align: center; 

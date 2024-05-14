@@ -77,12 +77,13 @@ class App extends React.Component {
 
   render() {
     const { isLoggedIn } = this.props;
+
     return (
       <>
-        <Notifications />
+        <Notifications listNotifications={this.listNotifications} />
         <div className={css(styles.app)}>
           <Header />
-          <Notifications listNotifications={this.listNotifications} />
+
           <body>
           <div className={css(styles.appBody)}>
               {isLoggedIn ? (
