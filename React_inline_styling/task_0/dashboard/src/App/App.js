@@ -44,6 +44,10 @@ class App extends React.Component {
   render() {
     const { isLoggedIn } = this.props;
 
+    // CourseListRow styling
+    const rowStyle = { backgroundColor: '#f5f5f5ab' };
+    const headerStyle = { backgroundColor: '#deb5b545' };
+
     return (
       <>
         <Notifications />

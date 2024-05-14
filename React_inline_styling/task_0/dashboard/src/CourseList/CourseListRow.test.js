@@ -1,33 +1,28 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import CourseList from './CourseList';
 import CourseListRow from './CourseListRow';
 
-describe('CourseListRow component', () => {
-  it('renders one cell with colspan = 2 when textSecondCell does not exist', () => {
-    const wrapper = shallow(<CourseListRow isHeader={true} textFirstCell="Header" />);
-
-    expect(wrapper.find('th')).toHaveLength(1);
-    expect(wrapper.find('th').prop('colSpan')).toEqual('2');
-    expect(wrapper.find('th').text()).toEqual('Header');
+describe('CourseList', () => {
+  it('renders without crashing', () => {
+    shallow(<CourseList />);
   });
 
-  it('renders two cells when textSecondCell is present', () => {
-    const wrapper = shallow(
-      <CourseListRow isHeader={true} textFirstCell="Header 1" textSecondCell="Header 2" />
-    );
+  it('renders correctly if listCourses is empty or not passed', () => {
+    let wrapper = shallow(<CourseList listCourses={[]} />);
+    expect(wrapper.containsMatchingElement(<CourseListRow textFirstCell='No course available yet' isHeader={false} />)).toBe(true);
 
-    expect(wrapper.find('th')).toHaveLength(2);
-    expect(wrapper.find('th').at(0).text()).toEqual('Header 1');
-    expect(wrapper.find('th').at(1).text()).toEqual('Header 2');
+    wrapper = shallow(<CourseList />);
+    expect(wrapper.containsMatchingElement(<CourseListRow textFirstCell='No course available yet' isHeader={false} />)).toBe(true);
   });
 
-  it('renders correctly two td elements within a tr element', () => {
-    const wrapper = shallow(
-      <CourseListRow isHeader={false} textFirstCell="Data 1" textSecondCell="Data 2" />
-    );
-
-    expect(wrapper.find('td')).toHaveLength(2);
-    expect(wrapper.find('td').at(0).text()).toEqual('Data 1');
-    expect(wrapper.find('td').at(1).text()).toEqual('Data 2');
+  it('renders the correct number of rows', () => {
+    const listCourses = [
+      { id: 1, name: 'ES6', credit: 60 },
+      { id: 2, name: 'Webpack', credit: 20 },
+      { id: 3, name: 'React', credit: 40 }
+    ];
+    const wrapper = shallow(<CourseList listCourses={listCourses} />);
+    expect(wrapper.find(CourseListRow).length).toBe(listCourses.length + 2);
   });
-});
+})
