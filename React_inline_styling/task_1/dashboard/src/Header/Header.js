@@ -28,7 +28,7 @@ function Header() {
   return (
     <header className={css(styles.header)}>
       <img src={holbertonLogo} className={css(styles.logo)} alt="logo" />
-      <h1>
+      <h1 className={css(styles.title)}>
         School dashboard
       </h1>
     </header>
