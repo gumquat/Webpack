@@ -1,45 +1,59 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
-  defaultItem: {
-    color: 'blue',
-  },
-  urgentItem: {
-    color: 'red',
+  notificationItem: {
+    width: '100%',
+    borderBottom: '1px solid black',
+    fontSize: '20px',
+    padding: '10px 8px',
+    boxSizing: 'border-box',
   },
 });
 
-const NotificationItem = React.memo(function NotificationItem({ id, type = 'default', html, value, markAsRead }) {
+const NotificationItem = ({ type, value, html, markAsRead }) => {
   const handleClick = () => {
-    markAsRead(id);
+    markAsRead();
   };
 
-  const listItemStyles = type === 'urgent' ? styles.urgentItem : styles.defaultItem;
+  const renderMarkAsReadButton = () => {
+    if (!html) return null;
+    return (
+      <button
+        style={{ float: 'right' }}
+        aria-label="Mark as read"
+        onClick={handleClick}
+      >
+        Mark as read
+      </button>
+    );
+  };
 
-  const listItemContent = html ? (
-    <li className={css(listItemStyles)} data-notification-type={type} dangerouslySetInnerHTML={html} onClick={handleClick}></li>
-  ) : (
-    <li className={css(listItemStyles)} data-notification-type={type} onClick={handleClick}>{value}</li>
+  return (
+    <li
+      className={css(styles.notificationItem)}
+      data-notification-type={type}
+      onClick={handleClick}
+    >
+      {html ? <div dangerouslySetInnerHTML={{ __html: html }} /> : value}
+      {renderMarkAsReadButton()}
+    </li>
   );
-
-  return listItemContent;
-});
+};
 
 NotificationItem.propTypes = {
+  type: PropTypes.string.isRequired,
+  value: PropTypes.string,
   html: PropTypes.shape({
     __html: PropTypes.string,
   }),
-  type: PropTypes.string,
-  value: PropTypes.string,
-  markAsRead: PropTypes.func,
-  id: PropTypes.number.isRequired,
+  markAsRead: PropTypes.func.isRequired,
 };
 
 NotificationItem.defaultProps = {
-  type: 'default',
-  markAsRead: () => {},
+  value: '',
+  html: null,
 };
 
 export default NotificationItem;
