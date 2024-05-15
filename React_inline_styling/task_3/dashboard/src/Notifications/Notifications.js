@@ -33,11 +33,18 @@ class Notifications extends Component {
 
     const styles = StyleSheet.create({
       notifications: {
-        display: 'flex',
+        display: displayDrawer ? 'flex' : 'none',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
         border: '4px solid black',
         marginRight: '.5rem',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 1000,
+        backgroundColor: 'white',
       },
 
       notificationsParagraph: {
@@ -45,7 +52,7 @@ class Notifications extends Component {
         fontWeight: '400',
         padding: '1.5rem 0 .3rem .8rem',
         margin: '0',
-        fontSize: '.8rem',
+        fontSize: '20px',
       },
 
       menuItem: {
@@ -56,7 +63,8 @@ class Notifications extends Component {
       },
 
       notificationsUnorderedList: {
-        paddingLeft: '2.3rem',
+        padding: '0',
+        listStyle: 'none',
       },
     })
 
