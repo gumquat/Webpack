@@ -4,6 +4,22 @@ import { NotificationItemShape } from "./NotificationItemShape";
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 
+
+// animation object //
+const fadeInAnimation = {
+  '0%': { opacity: 0.5 },
+  '100%': { opacity: 1 },
+};
+// animation object //
+const bounceAnimation = {
+  '0%': { transform: 'translateY(0)' },
+  '25%': { transform: 'translateY(-5px)' },
+  '50%': { transform: 'translateY(0)' },
+  '75%': { transform: 'translateY(5px)' },
+  '100%': { transform: 'translateY(0)' },
+};
+
+// class begins here
 class Notifications extends Component {
 
   markAsRead(id) {
@@ -60,6 +76,9 @@ class Notifications extends Component {
         fontWeight: '400',
         fontSize: '0.8rem',
         marginRight: '1rem',
+        animationName: [fadeInAnimation, bounceAnimation],
+        animationDuration: '1s, 0.5s',
+        animationIterationCount: 'infinite',
       },
 
       notificationsUnorderedList: {
