@@ -1,59 +1,61 @@
 import React from 'react';
-import { StyleSheet, css } from 'aphrodite';
 import PropTypes from 'prop-types';
+import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
+  defaultItem: {
+    color: 'blue',
+    borderBottom: '2px solid black',
+  },
+  urgentItem: {
+    color: 'red',
+    borderBottom: '2px solid black',
+  },
   notificationItem: {
-    width: '100%',
-    borderBottom: '1px solid black',
     fontSize: '20px',
     padding: '10px 8px',
     boxSizing: 'border-box',
   },
+  drawerItem: {
+    width: '100%',
+  },
 });
 
-const NotificationItem = ({ type, value, html, markAsRead }) => {
+const NotificationItem = React.memo(function NotificationItem({ id, type = 'default', html, value, markAsRead, displayDrawer }) {
   const handleClick = () => {
-    markAsRead();
+    markAsRead(id);
   };
 
-  const renderMarkAsReadButton = () => {
-    if (!html) return null;
-    return (
-      <button
-        style={{ float: 'right' }}
-        aria-label="Mark as read"
-        onClick={handleClick}
-      >
-        Mark as read
-      </button>
-    );
-  };
+  const listItemStyles = [
+    styles.notificationItem,
+    type === 'urgent' ? styles.urgentItem : styles.defaultItem,
+    displayDrawer ? styles.drawerItem : null,
+  ];
 
-  return (
-    <li
-      className={css(styles.notificationItem)}
-      data-notification-type={type}
-      onClick={handleClick}
-    >
-      {html ? <div dangerouslySetInnerHTML={{ __html: html }} /> : value}
-      {renderMarkAsReadButton()}
-    </li>
+  const listItemContent = html ? (
+    <li className={css(listItemStyles)} data-notification-type={type} dangerouslySetInnerHTML={html} onClick={handleClick}></li>
+  ) : (
+    <li className={css(listItemStyles)} data-notification-type={type} onClick={handleClick}>{value}</li>
   );
-};
+
+  return listItemContent;
+});
 
 NotificationItem.propTypes = {
-  type: PropTypes.string.isRequired,
-  value: PropTypes.string,
   html: PropTypes.shape({
     __html: PropTypes.string,
   }),
-  markAsRead: PropTypes.func.isRequired,
+  type: PropTypes.string,
+  value: PropTypes.string,
+  markAsRead: PropTypes.func,
+  id: PropTypes.number.isRequired,
+  displayDrawer: PropTypes.bool,
 };
 
 NotificationItem.defaultProps = {
-  value: '',
-  html: null,
+  type: 'default',
+  markAsRead: () => {},
+  displayDrawer: false,
 };
 
 export default NotificationItem;
