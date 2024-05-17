@@ -39,20 +39,30 @@ const styles = StyleSheet.create({
 });
 
 function Login() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLoginSubmit = (event) => {
+    event.preventDefault();
+    setIsLoggedIn(true);
+    // Add logic HERE to handle login submission
+  };
+
   return (
     <div className={css(styles.loginForm)}>
       <p className={css(styles.loginParagraph)}>
         Login to access the full dashboard
       </p>
-      <div className={css(styles.labelInput)}>
-        <label className={css(styles.label)} htmlFor="email">Email:</label>
-        <input className={css(styles.input)} type="text" id="email" name="email" />
-      </div>
-      <div className={css(styles.labelInput)}>
-        <label className={css(styles.label)} htmlFor="password">Password:</label>
-        <input className={css(styles.input)} type="password" id="password" name="password" />
-      </div>
-      <button className={css(styles.button)} type="submit">OK</button>
+      <form onSubmit={handleLoginSubmit}>
+        <div className={css(styles.labelInput)}>
+          <label className={css(styles.label)} htmlFor="email">Email:</label>
+          <input className={css(styles.input)} type="text" id="email" name="email" />
+        </div>
+        <div className={css(styles.labelInput)}>
+          <label className={css(styles.label)} htmlFor="password">Password:</label>
+          <input className={css(styles.input)} type="password" id="password" name="password" />
+        </div>
+        <input className={css(styles.button)} type="submit" value="OK" />
+      </form>
     </div>
   );
 }
