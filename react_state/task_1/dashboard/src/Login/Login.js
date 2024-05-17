@@ -1,4 +1,3 @@
-import React from 'react';
 import React, { useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
@@ -43,6 +42,7 @@ function Login() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [enableSubmit, setEnableSubmit] = useState(false);
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
@@ -52,10 +52,16 @@ function Login() {
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
+    handleFieldChange();
   };
 
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
+    handleFieldChange();
+  };
+
+  const handleFieldChange = () => {
+    setEnableSubmit(email.trim() !== '' && password.trim() !== '');
   };
 
   return (
@@ -86,7 +92,12 @@ function Login() {
             onChange={handleChangePassword}
           />
         </div>
-        <input className={css(styles.button)} type="submit" value="OK" />
+        <input
+          className={css(styles.button)}
+          type="submit"
+          value="OK"
+          disabled={!enableSubmit}
+        />
       </form>
     </div>
   );
