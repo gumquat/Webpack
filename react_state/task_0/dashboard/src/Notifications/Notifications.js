@@ -44,7 +44,6 @@ class Notifications extends Component {
       height: '.8rem',
       margin: '0.5rem'
     };
-    const handleButtonClick = handleHideDrawer; // Call 'handleHideDrawer' when the close button is clicked
 
     //////////////////////////
     // Aphrodite Stylesheet //
@@ -123,7 +122,7 @@ class Notifications extends Component {
             <button
               aria-label="Close"
               style={buttonStyle}
-              onClick={handleButtonClick}
+              onClick={handleHideDrawer} // call hide drawer when clicked
             >
               x
             </button>
