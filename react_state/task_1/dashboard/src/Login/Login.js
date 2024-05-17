@@ -1,4 +1,5 @@
 import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
@@ -40,11 +41,21 @@ const styles = StyleSheet.create({
 
 function Login() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
     setIsLoggedIn(true);
-    // Add logic HERE to handle login submission
+    // Add logic to handle login submission
+  };
+
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleChangePassword = (event) => {
+    setPassword(event.target.value);
   };
 
   return (
@@ -55,11 +66,25 @@ function Login() {
       <form onSubmit={handleLoginSubmit}>
         <div className={css(styles.labelInput)}>
           <label className={css(styles.label)} htmlFor="email">Email:</label>
-          <input className={css(styles.input)} type="text" id="email" name="email" />
+          <input
+            className={css(styles.input)}
+            type="text"
+            id="email"
+            name="email"
+            value={email}
+            onChange={handleChangeEmail}
+          />
         </div>
         <div className={css(styles.labelInput)}>
           <label className={css(styles.label)} htmlFor="password">Password:</label>
-          <input className={css(styles.input)} type="password" id="password" name="password" />
+          <input
+            className={css(styles.input)}
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={handleChangePassword}
+          />
         </div>
         <input className={css(styles.button)} type="submit" value="OK" />
       </form>
