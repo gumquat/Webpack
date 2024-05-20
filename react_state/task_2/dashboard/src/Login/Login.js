@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
@@ -39,15 +39,15 @@ const styles = StyleSheet.create({
 });
 
 function Login() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [enableSubmit, setEnableSubmit] = useState(false);
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
-    setIsLoggedIn(true);
-    // Add logic to handle login submission
+    this.props.logIn(this.state.email, this.state.password);
+    console.log('logIn Tconsole Logest');
   };
 
   const handleChangeEmail = (event) => {
