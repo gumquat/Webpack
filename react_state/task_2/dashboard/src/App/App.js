@@ -60,71 +60,108 @@ class App extends React.Component {
       { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
     ];
 
-    // Initialize the component state
+    // Initialize the component state with user and logOut from the context
     this.state = {
-      displayDrawer: false, // Add the displayDrawer state
+      displayDrawer: false,
+      user: {
+        email: '',
+        password: '',
+        isLoggedIn: false,
+      },
+      logOut: () => {
+        this.setState({
+          user: {
+            email: '',
+            password: '',
+            isLoggedIn: false,
+          },
+        });
+      },
     };
   }
 
+  // MOUNT AND UNMOUNT FUNCTIONS //
   // Add event listener for keydown event
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
   }
-
   // Remove event listener for keydown event
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
 
+
   // Handle keydown event to log out user
   handleKeyDown = (event) => {
     if (event.ctrlKey && event.key.toLowerCase() === 'h') {
       console.log('Logging you out');
-      this.props.logOut();
+      this.logOut();
     }
   }
 
   // Handle displaying of drawer
   handleDisplayDrawer = () => {
-    this.setState({ displayDrawer: true }); // Set displayDrawer to true
+    this.setState({ displayDrawer: true });
   };
 
   // Handle hiding of drawer
   handleHideDrawer = () => {
-    this.setState({ displayDrawer: false }); // Set displayDrawer to false
+    this.setState({ displayDrawer: false });
+  };
+
+  // logIn function
+  logIn = (email, password) => {
+    this.setState({
+      user: {
+        email,
+        password,
+        isLoggedIn: true,
+      },
+    });
+  };
+
+  // logOut function
+  logOut = () => {
+    this.setState({
+      user: {
+        email: '',
+        password: '',
+        isLoggedIn: false,
+      },
+    });
   };
 
   render() {
-    const { isLoggedIn } = this.props;
-    const { displayDrawer } = this.state; // Access the displayDrawer state
+    const { displayDrawer, user } = this.state;
+    const { isLoggedIn } = user;
 
     return (
       <>
         {/* Render the Notifications component */}
         <Notifications
-        listNotifications={this.listNotifications}
-        displayDrawer={displayDrawer}
-        handleDisplayDrawer={this.handleDisplayDrawer}
-        handleHideDrawer={this.handleHideDrawer}
+          listNotifications={this.listNotifications}
+          displayDrawer={displayDrawer}
+          handleDisplayDrawer={this.handleDisplayDrawer}
+          handleHideDrawer={this.handleHideDrawer}
         />
         <div className={css(styles.app)}>
           {/* Render the Header component */}
           <Header />
           <div className={css(styles.body)}>
-              {/* Render either the CourseList or Login component based on isLoggedIn prop */}
-              {isLoggedIn ? (
+            {/* Render either the CourseList or Login component based on isLoggedIn state */}
+            {isLoggedIn ? (
               <BodySectionWithMarginBottom title="Course list">
-                <CourseList listCourses={this.listCourses}/>
+                <CourseList listCourses={this.listCourses} />
                 <BodySection title="News from the School">
-                    <p>News from the School: School is CANCELED!</p>
+                  <p>News from the School: School is CANCELED!</p>
                 </BodySection>
               </BodySectionWithMarginBottom>
-              ) : (
+            ) : (
               <BodySectionWithMarginBottom title='Log in to continue'>
-                <Login />
+                <Login logIn={this.logIn} />
               </BodySectionWithMarginBottom>
-              )}
-            </div>
+            )}
+          </div>
           {/* Render the Footer component */}
           <Footer className={css(styles.footer)} />
         </div>
@@ -133,16 +170,17 @@ class App extends React.Component {
   }
 }
 
-// Define prop types for the App component
-App.propTypes = {
-  isLoggedIn: PropTypes.bool,
-  logOut: PropTypes.func,
-};
+// REMOVED at beginning of TASK 2 //
+// // Define prop types for the App component
+// App.propTypes = {
+//   isLoggedIn: PropTypes.bool,
+//   logOut: PropTypes.func,
+// };
 
-// Define default props for the App component
-App.defaultProps = {
-  isLoggedIn: false,
-  logOut: () => {},
-};
+// // Define default props for the App component
+// App.defaultProps = {
+//   isLoggedIn: false,
+//   logOut: () => {},
+// };
 
 export default App;
