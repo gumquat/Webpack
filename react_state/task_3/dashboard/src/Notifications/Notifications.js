@@ -19,35 +19,9 @@ const bounceAnimation = {
   '100%': { transform: 'translateY(0)' },
 };
 
-class Notifications extends Component {
-  markAsRead(id) {
-    console.log(`Notification ${id} has been marked as read`);
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return (
-      nextProps.listNotifications.length > this.props.listNotifications.length ||
-      nextProps.displayDrawer !== this.props.displayDrawer
-    );
-  }
-
-  render() {
-    const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer } = this.props;
-    const buttonStyle = {
-      border: 'none',
-      background: 'transparent',
-      cursor: 'pointer',
-      padding: '0'
-    };
-    const iconStyle = { // dead
-      width: '.8rem',
-      height: '.8rem',
-      margin: '0.5rem'
-    };
-
-    //////////////////////////
-    // Aphrodite Stylesheet //
-    //////////////////////////
+//////////////////////////
+// Aphrodite Stylesheet //
+//////////////////////////
     const styles = StyleSheet.create({
       notifications: {
         display: displayDrawer ? 'flex' : 'none',
@@ -89,6 +63,28 @@ class Notifications extends Component {
       },
     })
 
+class Notifications extends Component {
+  markAsRead(id) {
+    console.log(`Notification ${id} has been marked as read`);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return (
+      nextProps.listNotifications.length > this.props.listNotifications.length ||
+      nextProps.displayDrawer !== this.props.displayDrawer
+    );
+  }
+
+  render() {
+    const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer, markNotificationAsRead } = this.props;
+    const buttonStyle = {
+      border: 'none',
+      background: 'transparent',
+      cursor: 'pointer',
+      padding: '0'
+    };
+
+
     return (
       <>
         <div className={css(styles.menuItem)} data-testid="menuItem" onClick={handleDisplayDrawer}>
@@ -104,7 +100,7 @@ class Notifications extends Component {
               )}
               <ul className={css(styles.notificationsUnorderedList)}>
                 {listNotifications.length === 0 ? (
-                  <NotificationItem value='No new notification for now' />
+                  <NotificationItem value='No new notifications' />
                 ) : (
                   listNotifications.map(notification => (
                     <NotificationItem
@@ -145,6 +141,7 @@ Notifications.defaultProps = {
   listNotifications: [],
   handleDisplayDrawer: () => {}, // default prop for handleDisplayDrawer
   handleHideDrawer: () => {}, // default prop for handleHideDrawer
+  markNotificationAsRead: () => {},
 };
 
 export default Notifications;

@@ -124,6 +124,12 @@ class App extends React.Component {
     console.log('Logged in');
   };
 
+  markNotificationAsRead = (id) => {
+    this.setState({
+      listNotifications: this.state.listNotifications.filter(notification => notification.id !== id)
+    });
+    console.log(`Notification ${id} has been marked read`);
+  }
 
   render() {
     const { displayDrawer } = this.state; // Access the displayDrawer state
@@ -137,6 +143,7 @@ class App extends React.Component {
           displayDrawer={displayDrawer}
           handleDisplayDrawer={this.handleDisplayDrawer}
           handleHideDrawer={this.handleHideDrawer}
+          markNotificationAsRead={this.markNotificationAsRead}
         />        
         <div className={css(styles.app)}>
           <Header />

@@ -87,17 +87,49 @@ describe('Notifications', () => {
 
   // New tests
 
-  it('calls handleDisplayDrawer when the menu item is clicked', () => {
-    const handleDisplayDrawerMock = jest.fn();
-    const wrapper = shallow(<Notifications handleDisplayDrawer={handleDisplayDrawerMock} displayDrawer={false} />);
+  it('calls handleDisplayDrawer when menuItem is clicked', () => {
+    const handleDisplayDrawer = jest.fn();
+    const handleHideDrawer = jest.fn();
+    const wrapper = shallow(
+      <Notifications
+        displayDrawer={false}
+        handleDisplayDrawer={handleDisplayDrawer}
+        handleHideDrawer={handleHideDrawer}
+        listNotifications={[]}
+      />
+    );
+
     wrapper.find('[data-testid="menuItem"]').simulate('click');
-    expect(handleDisplayDrawerMock).toHaveBeenCalled();
+    expect(handleDisplayDrawer).toHaveBeenCalled();
   });
 
-  it('calls handleHideDrawer when the close button is clicked', () => {
-    const handleHideDrawerMock = jest.fn();
-    const wrapper = shallow(<Notifications handleHideDrawer={handleHideDrawerMock} displayDrawer={true} />);
+  it('calls handleHideDrawer when close button is clicked', () => {
+    const handleDisplayDrawer = jest.fn();
+    const handleHideDrawer = jest.fn();
+    const wrapper = shallow(
+      <Notifications
+        displayDrawer={true}
+        handleDisplayDrawer={handleDisplayDrawer}
+        handleHideDrawer={handleHideDrawer}
+        listNotifications={[]}
+      />
+    );
     wrapper.find('button').simulate('click');
-    expect(handleHideDrawerMock).toHaveBeenCalled();
+    expect(handleHideDrawer).toHaveBeenCalled();
   });
+
+  // NEW tests //
+  it('calls markNotificationAsRead with the right id when a NotificationItem is clicked', () => {
+    const markNotificationAsRead = jest.fn();
+    const wrapper = mount(
+      <Notifications
+        displayDrawer={true}
+        listNotifications={[{ id: 1, type: 'default', value: 'New course available' }]}
+        markNotificationAsRead={markNotificationAsRead}
+      />
+    );
+    wrapper.find('NotificationItem').first().simulate('click');
+    expect(markNotificationAsRead).toHaveBeenCalledWith(1);
+  });
+
 });

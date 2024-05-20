@@ -11,4 +11,12 @@ describe('Footer', () => {
     const wrapper = shallow(<Footer />);
     expect(wrapper.text()).toContain('Copyright');
   });
+
+  // new test //
+  describe('Footer', () => {
+    it('renders without crashing', () => {
+      shallow(<Footer />);
+    });
+  });
+
 });
