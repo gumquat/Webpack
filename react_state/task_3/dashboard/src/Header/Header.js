@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import holbertonLogo from '../assets/holbertonLogo.jpg';
 import { StyleSheet, css } from 'aphrodite';
 import AppContext from '../App/AppContext';

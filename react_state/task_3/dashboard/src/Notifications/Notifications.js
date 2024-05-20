@@ -24,7 +24,7 @@ const bounceAnimation = {
 //////////////////////////
     const styles = StyleSheet.create({
       notifications: {
-        display: displayDrawer ? 'flex' : 'none',
+        display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
         border: '4px solid black',

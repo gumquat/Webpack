@@ -1,5 +1,6 @@
 import React from "react";
 import './Footer.css';
+import PropTypes from 'prop-types'; // Import PropTypes
 import { getFullYear, getFooterCopy } from '../utils/utils';
 import AppContext from '../App/AppContext';
 
