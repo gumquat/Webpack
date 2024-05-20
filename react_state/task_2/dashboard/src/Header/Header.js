@@ -1,6 +1,7 @@
 import React from 'react';
 import holbertonLogo from '../assets/holbertonLogo.jpg';
 import { StyleSheet, css } from 'aphrodite';
+import AppContext from '../App/AppContext';
 
 const styles = StyleSheet.create({
   header: {
@@ -22,15 +23,31 @@ const styles = StyleSheet.create({
     fontWeight: 700,
     marginLeft: '1rem',
   },
+  section: {
+    fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif',
+    fontSize: '1rem',
+    color: 'black',
+    fontWeight: 200,
+    marginLeft: '1rem',
+  }
 });
 
-function Header() {
+
+const Header = () => {
+  const { user, logOut } = useContext(AppContext);
   return (
     <header className={css(styles.header)}>
       <img src={holbertonLogo} className={css(styles.logo)} alt="logo" />
       <h1 className={css(styles.title)}>
         School dashboard
       </h1>
+      {user.isLoggedIn && (
+        <div id="logoutSection" className={css(styles.section)}>
+          <p>
+            Welcome {user.email} <button alt="logOut" className='logoutButton' onClick={logOut}>logout</button>
+          </p>
+        </div>
+      )}
     </header>
   );
 }
