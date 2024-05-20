@@ -60,22 +60,13 @@ class App extends React.Component {
       { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
     ];
 
-    // Initialize the component state with user and logOut from the context
+    // Initialize the component state
     this.state = {
       displayDrawer: false,
       user: {
         email: '',
         password: '',
         isLoggedIn: false,
-      },
-      logOut: () => {
-        this.setState({
-          user: {
-            email: '',
-            password: '',
-            isLoggedIn: false,
-          },
-        });
       },
     };
   }
@@ -89,7 +80,6 @@ class App extends React.Component {
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
-
 
   // Handle keydown event to log out user
   handleKeyDown = (event) => {
