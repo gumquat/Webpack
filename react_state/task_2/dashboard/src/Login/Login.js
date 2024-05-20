@@ -38,16 +38,14 @@ const styles = StyleSheet.create({
   },
 });
 
-function Login() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+function Login({ logIn }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [enableSubmit, setEnableSubmit] = useState(false);
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
-    setIsLoggedIn(true);
-    // Add logic to handle login submission
+    logIn(email, password); // Call the logIn function with email and password
   };
 
   const handleChangeEmail = (event) => {
