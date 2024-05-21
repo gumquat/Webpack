@@ -38,16 +38,15 @@ const styles = StyleSheet.create({
   },
 });
 
-function Login() {
-  const [setIsLoggedIn] = useState(false);
+function Login(props) {
+  const { logIn } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [enableSubmit, setEnableSubmit] = useState(false);
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
-    this.props.logIn(this.state.email, this.state.password);
-    console.log('logIn Tconsole Logest');
+    props.logIn(email, password); // Pass email and password as arguments
   };
 
   const handleChangeEmail = (event) => {

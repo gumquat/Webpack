@@ -1,5 +1,5 @@
-import React from "react";
-import Notifications from "../Notifications/Notifications";
+import React, { useState, useEffect } from 'react';
+import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Login from '../Login/Login';
@@ -43,108 +43,83 @@ const styles = StyleSheet.create({
   },
 });
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+const App = () => {
+  // Mock data for courses and notifications
+  const listCourses = [
+    { id: 1, name: 'ES6', credit: 60 },
+    { id: 2, name: 'Webpack', credit: 20 },
+    { id: 3, name: 'React', credit: 40 },
+  ];
 
-    // Mock data for courses and notifications
-    this.listCourses = [
-      { id: 1, name: 'ES6', credit: 60 },
-      { id: 2, name: 'Webpack', credit: 20 },
-      { id: 3, name: 'React', credit: 40 },
-    ];
+  const listNotifications = [
+    { id: 1, type: 'default', value: 'New course available' },
+    { id: 2, type: 'urgent', value: 'New resume available' },
+    { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
+  ];
 
-    this.listNotifications = [
-      { id: 1, type: 'default', value: 'New course available' },
-      { id: 2, type: 'urgent', value: 'New resume available' },
-      { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
-    ];
-
-    // Initialize the component state
-    this.state = {
-      displayDrawer: false, // Add the displayDrawer state
-      user: {
-        email: '',
-        password: '',
-        isLoggedIn: false,
-      },
-    };
-  }
-
-  // Add event listener for keydown event
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown);
-  }
-  // Remove event listener for keydown event
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown);
-  }
-
+  // Initialize the component state
+  const [displayDrawer, setDisplayDrawer] = useState(false);
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+    isLoggedIn: false,
+  });
 
   // Handle keydown event to log out user
-  handleKeyDown = (event) => {
+  const handleKeyDown = (event) => {
     if (event.ctrlKey && event.key.toLowerCase() === 'h') {
       console.log('Logging you out');
-      this.logOut();
+      logOut();
     }
-  }
+  };
 
+  // Add event listener for keydown event
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   // Handle displaying of drawer
-  handleDisplayDrawer = () => {
-    this.setState({ displayDrawer: true }); // Set displayDrawer to true
+  const handleDisplayDrawer = () => {
+    setDisplayDrawer(true);
   };
 
   // Handle hiding of drawer
-  handleHideDrawer = () => {
-    this.setState({ displayDrawer: false }); // Set displayDrawer to false
+  const handleHideDrawer = () => {
+    setDisplayDrawer(false);
   };
 
-
   // Handle logging out the user
-  logOut = () => {
-    this.setState({
-      user: {
-        email: '',
-        password: '',
-        isLoggedIn: false,
-      },
+  const logOut = () => {
+    setUser({
+      email: '',
+      password: '',
+      isLoggedIn: false,
     });
     console.log('Logged out');
   };
+
   // Handle logging in the user
-  logIn = (email, password) => {
-    this.setState({
-      user: {
-        email: email,
-        password: password,
-        isLoggedIn: true,
-      },
+  const logIn = (email, password) => {
+    setUser({
+      email,
+      password,
+      isLoggedIn: true,
     });
     console.log('Logged in');
   };
 
-  markNotificationAsRead = (id) => {
-    this.setState({
-      listNotifications: this.state.listNotifications.filter(notification => notification.id !== id)
-    });
-    console.log(`Notification ${id} has been marked read`);
-  }
-
-  render() {
-    const { displayDrawer } = this.state; // Access the displayDrawer state
-    const { listCourses, listNotifications, user } = this.state;
-
-    return (
-      <AppContext.Provider value={{ user, logOut: this.logOut }}>
-        <>
+  return (
+    <AppContext.Provider value={{ user, logOut }}>
+      <>
         <Notifications
           listNotifications={listNotifications}
           displayDrawer={displayDrawer}
-          handleDisplayDrawer={this.handleDisplayDrawer}
-          handleHideDrawer={this.handleHideDrawer}
-          markNotificationAsRead={this.markNotificationAsRead}
-        />        
+          handleDisplayDrawer={handleDisplayDrawer}
+          handleHideDrawer={handleHideDrawer}
+        />
         <div className={css(styles.app)}>
           <Header />
           <div className={css(styles.body)}>
@@ -157,16 +132,15 @@ class App extends React.Component {
               </BodySectionWithMarginBottom>
             ) : (
               <BodySectionWithMarginBottom title="Log in to continue">
-                <Login logIn={this.logIn} />
+                <Login logIn={logIn} />
               </BodySectionWithMarginBottom>
             )}
           </div>
           <Footer className={css(styles.footer)} />
         </div>
-        </>
-        </AppContext.Provider>
-    );
-  }
-}
+      </>
+    </AppContext.Provider>
+  );
+};
 
 export default App;
