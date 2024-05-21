@@ -30,14 +30,15 @@ function CourseListRow({ isHeader, textFirstCell, textSecondCell }) {
 
   return (
     <tr className={css(rowStyle, isChecked && styles.rowChecked)}>
-      {textSecondCell === null ? (
-        <CellType colSpan={isHeader ? "2" : undefined} className={css(cellStyle)}>
-          {isHeader ? textFirstCell : <input type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />}
-        </CellType>
-      ) : (
+      <CellType className={css(cellStyle)}>{textFirstCell}</CellType>
+      {textSecondCell !== null && (
         <>
-          <CellType className={css(cellStyle)}>{textFirstCell}</CellType>
           <CellType className={css(cellStyle)}>{textSecondCell}</CellType>
+          {!isHeader && (
+            <CellType className={css(cellStyle)}>
+              <input type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
+            </CellType>
+          )}
         </>
       )}
     </tr>
