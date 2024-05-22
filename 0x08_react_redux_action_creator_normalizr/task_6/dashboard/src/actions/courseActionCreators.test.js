@@ -13,5 +13,5 @@ export const unSelectCourse = (index) => ({
 
 export const bindCourseActionCreators = (dispatch) => ({
   boundSelectCourse: (index) => dispatch(selectCourse(index)),
-  boundUnselectCourse: (index) => dispatch(unselectCourse(index))
+  boundUnselectCourse: (index) => dispatch(unSelectCourse(index))
 });
