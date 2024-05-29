@@ -1,40 +1,31 @@
+import { Map, fromJS } from 'immutable';
 import {
   MARK_AS_READ,
   SET_TYPE_FILTER,
   FETCH_NOTIFICATIONS_SUCCESS,
   NotificationTypeFilters,
 } from './notificationActionTypes';
+import { notificationsNormalizer } from './notifications';
 
-const defaultState = {
+const initialState = Map({
   filter: NotificationTypeFilters.DEFAULT,
-  notifications: [],
-};
+  entities: Map(),
+  result: [],
+});
 
-const notificationReducer = (state = defaultState, action) => {
+const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_NOTIFICATIONS_SUCCESS:
-      return {
-        ...state,
-        notifications: action.data.map((notification) => ({
-          ...notification,
-          isRead: false,
-          type: notification.type.toLowerCase(), // Convert type to lowercase
-        })),
-      };
+    case FETCH_NOTIFICATIONS_SUCCESS: {
+      const normalizedData = notificationsNormalizer(action.data);
+      return state.mergeDeep(fromJS({
+        entities: normalizedData.entities,
+        result: normalizedData.result,
+      }));
+    }
     case MARK_AS_READ:
-      return {
-        ...state,
-        notifications: state.notifications.map((notification) =>
-          notification.id === action.notificationId
-            ? { ...notification, isRead: true }
-            : notification
-        ),
-      };
+      return state.setIn(['entities', 'notifications', action.notificationId, 'isRead'], true);
     case SET_TYPE_FILTER:
-      return {
-        ...state,
-        filter: action.filter.toLowerCase(), // Convert filter to lowercase
-      };
+      return state.set('filter', action.filter.toLowerCase());
     default:
       return state;
   }

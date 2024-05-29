@@ -2,7 +2,7 @@ import * as mockNotifications from '../../notifications.json';
 import { normalize } from 'normalizr';
 import schema from './schema/notifications';
 
-// Ntitties
+// Entities
 const user = new schema.Entity('users');
 const message = new schema.Entity('messages', {}, {
   idAttribute: 'guid',
@@ -12,11 +12,15 @@ const notification = new schema.Entity('notifications', {
   context: message,
 });
 
-// bundling the Ntitties into a schema
-const schema = { user, message, notification };
+// Bundling the entities into a schema
+const notificationSchema = { user, message, notification };
+
+function notificationsNormalizer(data) {
+  return normalize(data, [notification]);
+}
 
 function getAllNotificationsByUser(userId) {
-  const normalizedData = normalize(mockNotifications, [schema]);
+  const normalizedData = notificationsNormalizer(mockNotifications);
   const userMessages = [];
 
   for (const notificationId of normalizedData.result) {
@@ -31,4 +35,4 @@ function getAllNotificationsByUser(userId) {
 }
 
 export default getAllNotificationsByUser;
-export { schema }; // for fun
+export { notificationSchema }; // for fun
