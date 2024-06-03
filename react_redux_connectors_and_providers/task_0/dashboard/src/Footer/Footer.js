@@ -1,6 +1,6 @@
 import React from "react";
 import './Footer.css';
-import PropTypes from 'prop-types'; // Import PropTypes
+import PropTypes from 'prop-types';
 import { getFullYear, getFooterCopy } from '../utils/utils';
 import { connect } from 'react-redux';
 
