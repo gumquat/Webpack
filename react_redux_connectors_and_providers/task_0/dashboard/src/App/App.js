@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -8,7 +9,6 @@ import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBot
 import BodySection from '../BodySection/BodySection';
 import { StyleSheet, css } from 'aphrodite';
 import AppContext from './AppContext';
-import { connect } from 'react-redux';
 
 // Styles for the App component
 const styles = StyleSheet.create({
@@ -116,15 +116,16 @@ const App = ({ isLoggedin }) => {
   const mapStateToProps = (state) => {
     return {
       isLoggedIn: state.get('isUserLoggedIn'),
+      displayDrawer: state.get('isNotificationDrawerVisible'),
     };
-  };
+  }
 
   return (
     <AppContext.Provider value={{ user, logOut }}>
       <>
         <Notifications
           listNotifications={listNotifications}
-          displayDrawer={displayDrawer}
+          displayDrawer={displayDrawer} // Use the prop instead of state
           handleDisplayDrawer={handleDisplayDrawer}
           handleHideDrawer={handleHideDrawer}
         />
