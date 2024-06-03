@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -9,8 +10,7 @@ import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBot
 import BodySection from '../BodySection/BodySection';
 import { StyleSheet, css } from 'aphrodite';
 import AppContext from './AppContext';
-import { displayNotificationDrawer, hideNotificationDrawer } from './actions/uiActionCreators';
-import PropTypes from 'prop-types';
+import { displayNotificationDrawer, hideNotificationDrawer, loginRequest } from './actions/uiActionCreators';
 
 // Styles for the App component
 const styles = StyleSheet.create({
@@ -57,6 +57,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   displayNotificationDrawer,
   hideNotificationDrawer,
+  login: loginRequest, // Map the loginRequest action creator to the login prop
 };
 
 const App = ({
@@ -64,6 +65,7 @@ const App = ({
   displayDrawer,
   displayNotificationDrawer,
   hideNotificationDrawer,
+  logIn, // Receive the login prop from Redux
 }) => {
   // Mock data for courses and notifications
   const listCourses = [
@@ -111,16 +113,6 @@ const App = ({
     console.log('Logged out');
   };
 
-  // Handle logging in the user
-  const logIn = (email, password) => {
-    setUser({
-      email,
-      password,
-      isLoggedIn: true,
-    });
-    console.log('Logged in');
-  };
-
 
   return (
     <AppContext.Provider value={{ user, logOut }}>
@@ -159,6 +151,7 @@ App.propTypes = {
   displayDrawer: PropTypes.bool.isRequired,
   displayNotificationDrawer: PropTypes.func.isRequired,
   hideNotificationDrawer: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {
