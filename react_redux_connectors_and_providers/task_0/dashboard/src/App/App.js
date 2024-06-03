@@ -9,6 +9,7 @@ import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBot
 import BodySection from '../BodySection/BodySection';
 import { StyleSheet, css } from 'aphrodite';
 import AppContext from './AppContext';
+import { displayNotificationDrawer, hideNotificationDrawer } from './actions/uiActionCreators';
 
 // Styles for the App component
 const styles = StyleSheet.create({
@@ -44,7 +45,25 @@ const styles = StyleSheet.create({
   },
 });
 
-const App = ({ isLoggedin }) => {
+// map to store
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.get('isUserLoggedIn'),
+    displayDrawer: state.get('isNotificationDrawerVisible'),
+  };
+}
+
+const mapDispatchToProps = {
+  displayNotificationDrawer,
+  hideNotificationDrawer,
+};
+
+const App = ({
+  isLoggedIn,
+  displayDrawer,
+  displayNotificationDrawer,
+  hideNotificationDrawer,
+}) => {
   // Mock data for courses and notifications
   const listCourses = [
     { id: 1, name: 'ES6', credit: 60 },
@@ -82,12 +101,12 @@ const App = ({ isLoggedin }) => {
     };
   }, []);
 
-  // Handle displaying of drawer
+  // DEAD Handle displaying of drawer
   const handleDisplayDrawer = () => {
     setDisplayDrawer(true);
   };
 
-  // Handle hiding of drawer
+  // DEAD Handle hiding of drawer
   const handleHideDrawer = () => {
     setDisplayDrawer(false);
   };
@@ -112,13 +131,6 @@ const App = ({ isLoggedin }) => {
     console.log('Logged in');
   };
 
-  // map to store
-  const mapStateToProps = (state) => {
-    return {
-      isLoggedIn: state.get('isUserLoggedIn'),
-      displayDrawer: state.get('isNotificationDrawerVisible'),
-    };
-  }
 
   return (
     <AppContext.Provider value={{ user, logOut }}>
@@ -126,8 +138,8 @@ const App = ({ isLoggedin }) => {
         <Notifications
           listNotifications={listNotifications}
           displayDrawer={displayDrawer} // Use the prop instead of state
-          handleDisplayDrawer={handleDisplayDrawer}
-          handleHideDrawer={handleHideDrawer}
+          handleDisplayDrawer={displayNotificationDrawer} // Using the prop instead of a local function
+          handleHideDrawer={hideNotificationDrawer} // Using the prop instead of a local function
         />
         <div className={css(styles.app)}>
           <Header />
@@ -152,4 +164,4 @@ const App = ({ isLoggedin }) => {
   );
 };
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
