@@ -10,6 +10,7 @@ import BodySection from '../BodySection/BodySection';
 import { StyleSheet, css } from 'aphrodite';
 import AppContext from './AppContext';
 import { displayNotificationDrawer, hideNotificationDrawer } from './actions/uiActionCreators';
+import PropTypes from 'prop-types';
 
 // Styles for the App component
 const styles = StyleSheet.create({
@@ -78,7 +79,6 @@ const App = ({
   ];
 
   // Initialize the component state
-  const [displayDrawer, setDisplayDrawer] = useState(false);
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -100,16 +100,6 @@ const App = ({
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
-
-  // DEAD Handle displaying of drawer
-  const handleDisplayDrawer = () => {
-    setDisplayDrawer(true);
-  };
-
-  // DEAD Handle hiding of drawer
-  const handleHideDrawer = () => {
-    setDisplayDrawer(false);
-  };
 
   // Handle logging out the user
   const logOut = () => {
@@ -162,6 +152,18 @@ const App = ({
       </>
     </AppContext.Provider>
   );
+};
+
+App.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  displayDrawer: PropTypes.bool.isRequired,
+  displayNotificationDrawer: PropTypes.func.isRequired,
+  hideNotificationDrawer: PropTypes.func.isRequired,
+};
+
+App.defaultProps = {
+  isLoggedIn: false,
+  displayDrawer: false,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
