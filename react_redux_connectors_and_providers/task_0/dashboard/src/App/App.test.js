@@ -79,27 +79,6 @@ describe('App', () => {
     wrapper.unmount();
   });
 
-  // New tests BELOW //
-
-  it('should have default state for displayDrawer as false', () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.state('displayDrawer')).toBe(false);
-  });
-
-  it('should update state to true after calling handleDisplayDrawer', () => {
-    const wrapper = shallow(<App />);
-    wrapper.instance().handleDisplayDrawer();
-    expect(wrapper.state('displayDrawer')).toBe(true);
-  });
-
-  it('should update state to false after calling handleHideDrawer', () => {
-    const wrapper = shallow(<App />);
-    wrapper.setState({ displayDrawer: true });
-    wrapper.instance().handleHideDrawer();
-    expect(wrapper.state('displayDrawer')).toBe(false);
-  });
-
-
  // NEW tests below //
   it('updates user state correctly when logIn is called', () => {
     const wrapper = shallow(<App />);
@@ -147,5 +126,27 @@ describe('App', () => {
       expect(result).toEqual(expected);
     });
   });
+  it('should return the correct object when isUserLoggedIn and isNotificationDrawerVisible are true', () => {
+    const state = fromJS({
+      isUserLoggedIn: true,
+      isNotificationDrawerVisible: true,
+    });
 
+    const expected = { isLoggedIn: true, displayDrawer: true };
+    const result = mapStateToProps(state);
+
+    expect(result).toEqual(expected);
+  });
+
+  it('should return the correct object when isUserLoggedIn and isNotificationDrawerVisible are false', () => {
+    const state = fromJS({
+      isUserLoggedIn: false,
+      isNotificationDrawerVisible: false,
+    });
+
+    const expected = { isLoggedIn: false, displayDrawer: false };
+    const result = mapStateToProps(state);
+
+    expect(result).toEqual(expected);
+  });
 });
