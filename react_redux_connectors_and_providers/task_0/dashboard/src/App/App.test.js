@@ -7,6 +7,8 @@ import Login from '../Login/Login';
 import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 import { StyleSheetTestUtils } from 'aphrodite';
+import { fromJS } from 'immutable';
+import { mapStateToProps } from './App';
 
 describe('App', () => {
   beforeAll(() => {
@@ -131,6 +133,19 @@ describe('App', () => {
       { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
     ];
     expect(wrapper.state('listNotifications')).toEqual(expectedNotifications);
+  });
+    
+  describe('mapStateToProps', () => {
+    it('should return the correct object when isUserLoggedIn is true', () => {
+      const state = fromJS({
+        isUserLoggedIn: true,
+      });
+  
+      const expected = { isLoggedIn: true };
+      const result = mapStateToProps(state);
+  
+      expect(result).toEqual(expected);
+    });
   });
 
 });
