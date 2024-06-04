@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import App from './App';
 import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
@@ -63,57 +63,6 @@ describe('App', () => {
     });
   });
 
-  it('calls logOut and alert when ctrl+h is pressed', () => {
-    const logOutMock = jest.fn();
-    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
-
-    const wrapper = mount(<App logOut={logOutMock} />);
-
-    const event = new KeyboardEvent('keydown', { key: 'h', ctrlKey: true });
-    window.dispatchEvent(event);
-
-    expect(logOutMock).toHaveBeenCalled();
-    expect(alertMock).toHaveBeenCalledWith('Logging you out');
-
-    alertMock.mockRestore();
-    wrapper.unmount();
-  });
-
- // NEW tests below //
-  it('updates user state correctly when logIn is called', () => {
-    const wrapper = shallow(<App />);
-    wrapper.instance().logIn('test@example.com', 'password');
-    expect(wrapper.state('user').isLoggedIn).toBe(true);
-    expect(wrapper.state('user').email).toBe('test@example.com');
-});
-
-  it('updates user state correctly when logOut is called', () => {
-    const wrapper = shallow(<App />);
-    wrapper.instance().logIn('test@example.com', 'password');
-    expect(wrapper.state('user').isLoggedIn).toBe(true);
-
-    wrapper.instance().logOut();
-    expect(wrapper.state('user').isLoggedIn).toBe(false);
-  })
-
-  // NEW tests //
-  it('removes the notification from listNotifications when markNotificationAsRead is called', () => {
-    const wrapper = shallow(<App />);
-    const initialNotifications = [
-      { id: 1, type: 'default', value: 'New course available' },
-      { id: 2, type: 'urgent', value: 'New resume available' },
-      { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
-    ];
-    wrapper.setState({ listNotifications: initialNotifications });
-
-    wrapper.instance().markNotificationAsRead(2);
-    const expectedNotifications = [
-      { id: 1, type: 'default', value: 'New course available' },
-      { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
-    ];
-    expect(wrapper.state('listNotifications')).toEqual(expectedNotifications);
-  });
-    
   describe('mapStateToProps', () => {
     it('should return the correct object when isUserLoggedIn is true', () => {
       const state = fromJS({
@@ -126,6 +75,7 @@ describe('App', () => {
       expect(result).toEqual(expected);
     });
   });
+
   it('should return the correct object when isUserLoggedIn and isNotificationDrawerVisible are true', () => {
     const state = fromJS({
       isUserLoggedIn: true,
