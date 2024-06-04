@@ -10,7 +10,7 @@ import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBot
 import BodySection from '../BodySection/BodySection';
 import { StyleSheet, css } from 'aphrodite';
 import AppContext from './AppContext';
-import { displayNotificationDrawer, hideNotificationDrawer, loginRequest } from './actions/uiActionCreators';
+import { displayNotificationDrawer, hideNotificationDrawer, loginRequest } from '../actions/uiActionCreators';
 
 // Styles for the App component
 const styles = StyleSheet.create({

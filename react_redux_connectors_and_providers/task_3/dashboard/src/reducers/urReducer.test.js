@@ -1,24 +1,58 @@
+import uiReducer from './uiReducer';
 import { Map } from 'immutable';
-import uiReducer, { initialState } from './uiReducer';
 import {
+  LOGIN,
+  LOGOUT,
   DISPLAY_NOTIFICATION_DRAWER,
-  HIDE_NOTIFICATION_DRAWER
-} from './actions/uiActionTypes';
+  HIDE_NOTIFICATION_DRAWER,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE
+} from '../actions/uiActionTypes';
 
 describe('uiReducer', () => {
-  it('should return the initial state when no action is passed', () => {
-    const state = uiReducer(undefined, {});
-    expect(state).toEqual(initialState);
+  const initialState = Map({
+    isNotificationDrawerVisible: false,
+    isUserLoggedIn: false,
+    user: null
   });
 
-  it('should return the initial state when the action SELECT_COURSE is passed', () => {
-    const state = uiReducer(initialState, { type: 'SELECT_COURSE' });
-    expect(state).toEqual(initialState);
+  it('should return the initial state', () => {
+    expect(uiReducer(undefined, {})).toEqual(initialState);
   });
 
-  it('should update isNotificationDrawerVisible to true when DISPLAY_NOTIFICATION_DRAWER action is passed', () => {
-    const state = uiReducer(initialState, { type: DISPLAY_NOTIFICATION_DRAWER });
+  it('should handle DISPLAY_NOTIFICATION_DRAWER', () => {
+    const action = { type: DISPLAY_NOTIFICATION_DRAWER };
     const expectedState = initialState.set('isNotificationDrawerVisible', true);
-    expect(state).toEqual(expectedState);
+    expect(uiReducer(initialState, action)).toEqual(expectedState);
+  });
+
+  it('should handle HIDE_NOTIFICATION_DRAWER', () => {
+    const action = { type: HIDE_NOTIFICATION_DRAWER };
+    const expectedState = initialState.set('isNotificationDrawerVisible', false);
+    expect(uiReducer(initialState, action)).toEqual(expectedState);
+  });
+
+  it('should handle LOGIN_SUCCESS', () => {
+    const action = { type: LOGIN_SUCCESS, payload: { user: { email: 'test@example.com' } } };
+    const expectedState = initialState.set('isUserLoggedIn', true).set('user', Map({ email: 'test@example.com' }));
+    expect(uiReducer(initialState, action)).toEqual(expectedState);
+  });
+
+  it('should handle LOGIN_FAILURE', () => {
+    const action = { type: LOGIN_FAILURE };
+    const expectedState = initialState.set('isUserLoggedIn', false).set('user', null);
+    expect(uiReducer(initialState, action)).toEqual(expectedState);
+  });
+
+  it('should handle LOGIN', () => {
+    const action = { type: LOGIN, payload: { user: { email: 'test@example.com' } } };
+    const expectedState = initialState.set('user', Map({ email: 'test@example.com' }));
+    expect(uiReducer(initialState, action)).toEqual(expectedState);
+  });
+
+  it('should handle LOGOUT', () => {
+    const action = { type: LOGOUT };
+    const expectedState = initialState.set('isUserLoggedIn', false).set('user', null);
+    expect(uiReducer(initialState, action)).toEqual(expectedState);
   });
 });
