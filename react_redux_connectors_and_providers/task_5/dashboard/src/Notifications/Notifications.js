@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import NotificationItem from "./NotificationItem";
-import { NotificationItemShape } from "./NotificationItemShape";
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, css } from 'aphrodite';
-import { connect } from 'react-redux'; // Import connect from react-redux
-import { fetchNotifications } from './notificationActionCreators'; // Import fetchNotifications action creator
-
+import NotificationItem from './NotificationItem';
+import { NotificationItemShape } from './NotificationItemShape';
+import PropTypes from 'prop-types';
+import { fetchNotifications, markAsRead } from './notificationActionCreators';
+import { getUnreadNotifications } from '../selectors/notificationSelector';
 
 // Animation object
 const fadeInAnimation = {
@@ -73,7 +73,7 @@ class Notifications extends Component {
 
   markAsRead(id) {
     console.log(`Notification ${id} has been marked as read`);
-    this.props.markNotificationAsRead(id); // Call markNotificationAsRead prop
+    this.props.markNotificationAsRead(id);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -152,13 +152,14 @@ Notifications.defaultProps = {
   markNotificationAsRead: () => {},
 };
 
-const mapStateToProps = state => ({
-  listNotifications: state.notifications.messages, // Map messages from state to listNotifications prop
+const mapStateToProps = (state) => ({
+  listNotifications: getUnreadNotifications(state),
 });
 
 const mapDispatchToProps = {
-  fetchNotifications, // Map fetchNotifications action creator
-  markNotificationAsRead,
+  fetchNotifications,
+  markNotificationAsRead: markAsRead,
 };
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
