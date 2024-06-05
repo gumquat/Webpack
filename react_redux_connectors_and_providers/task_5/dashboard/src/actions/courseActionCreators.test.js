@@ -1,17 +1,26 @@
-import { SELECT_COURSE, UNSELECT_COURSE } from './courseActionTypes';
-import { useDispatch } from 'react-redux';
+import * as actions from './courseActionCreators';
+import fetchMock from 'fetch-mock';
+import courses from '../dist/courses.json';
 
-export const selectCourse = (index) => ({
-  type: SELECT_COURSE,
-  index,
-});
+describe('fetchCourses', () => {
+  afterEach(() => {
+    fetchMock.restore();
+  });
 
-export const unSelectCourse = (index) => ({
-  type: UNSELECT_COURSE,
-  index,
-});
+  it('should create the correct action when the fetch is successful', () => {
+    fetchMock.getOnce('/dist/courses.json', {
+      body: courses,
+      headers: { 'content-type': 'application/json' },
+    });
 
-export const bindCourseActionCreators = (dispatch) => ({
-  boundSelectCourse: (index) => dispatch(selectCourse(index)),
-  boundUnselectCourse: (index) => dispatch(unSelectCourse(index))
+    const expectedActions = [
+      { type: 'SET_COURSES', courses },
+    ];
+
+    const store = mockStore({ courses: [] });
+
+    return store.dispatch(actions.fetchCourses()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
 });
