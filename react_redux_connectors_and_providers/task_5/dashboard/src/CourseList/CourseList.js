@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import CourseListRow from './CourseListRow';
 import PropTypes from 'prop-types';
 import { CourseShape } from './CourseShape';
 import { StyleSheet, css } from 'aphrodite';
+import { fetchCourses, selectCourse, unSelectCourse } from './courseActionCreators';
+import { getListCourses } from '../selectors/courseSelector'; // import the selector
 
 const styles = StyleSheet.create({
   courseList: {
@@ -15,7 +18,31 @@ const styles = StyleSheet.create({
   },
 });
 
-function CourseList({ listCourses }) {
+const onChangeRow = (id, checked) => {
+  if (checked) {
+    selectCourse(id); // Dispatch the selectCourse action
+  } else {
+    unSelectCourse(id); // Dispatch the unSelectCourse action
+  }
+};
+
+const mapStateToProps = (state) => ({
+  listCourses: getListCourses(state), // Map the listCourses from the selector
+});
+
+const mapDispatchToProps = {
+  fetchCourses,
+  selectCourse,
+  unSelectCourse,
+};
+
+const ConnectedCourseList = connect(mapStateToProps, mapDispatchToProps)(CourseList);
+
+
+function CourseList({ listCourses, fetchCourses, selectCourse, unSelectCourse }) {
+  useEffect(() => {
+    fetchCourses(); // Fetch courses when the component mounts
+  }, [fetchCourses]);
   return (
     <table className={css(styles.courseList)} id='CourseList'>
       <thead>
@@ -43,4 +70,4 @@ CourseList.defaultProps = {
   listCourses: [],
 };
 
-export default CourseList;
+export default ConnectedCourseList;
