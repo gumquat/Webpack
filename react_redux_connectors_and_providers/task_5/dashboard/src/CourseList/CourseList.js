@@ -4,8 +4,8 @@ import CourseListRow from './CourseListRow';
 import PropTypes from 'prop-types';
 import { CourseShape } from './CourseShape';
 import { StyleSheet, css } from 'aphrodite';
-import { fetchCourses, selectCourse, unSelectCourse } from './courseActionCreators';
-import { getListCourses } from '../selectors/courseSelector'; // import the selector
+import { fetchCourses, selectCourse, unSelectCourse } from './actions/courseActionCreators';
+import { getListCourses } from './selectors/courseSelector'; // import the selector
 
 const styles = StyleSheet.create({
   courseList: {

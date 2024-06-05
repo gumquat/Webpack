@@ -44,9 +44,4 @@ module.exports = {
       template: "dist/index.html",
     }),
   ],
-  node: {
-    global: true,
-    __filename: 'mock',
-    __dirname: 'mock-dirname',
-  },
 };
