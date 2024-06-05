@@ -73,6 +73,7 @@ class Notifications extends Component {
 
   markAsRead(id) {
     console.log(`Notification ${id} has been marked as read`);
+    this.props.markNotificationAsRead(id); // Call markNotificationAsRead prop
   }
 
   shouldComponentUpdate(nextProps) {
@@ -82,14 +83,14 @@ class Notifications extends Component {
     );
   }
   
-    render() {
-      const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer, markNotificationAsRead } = this.props;
-      const buttonStyle = {
-        border: 'none',
-        background: 'transparent',
-        cursor: 'pointer',
-        padding: '0'
-      };
+  render() {
+    const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer } = this.props;
+    const buttonStyle = {
+      border: 'none',
+      background: 'transparent',
+      cursor: 'pointer',
+      padding: '0'
+    };
 
     return (
       <>
@@ -106,16 +107,16 @@ class Notifications extends Component {
               )}
               <ul className={css(styles.notificationsUnorderedList)}>
                 {listNotifications.length === 0 ? (
-                  <NotificationItem value='No new notifications' />
+                  <NotificationItem value='No new notification for now' />
                 ) : (
-                  listNotifications.map(notification => (
+                  listNotifications.valueSeq().map(notification => (
                     <NotificationItem
-                      key={notification.id}
-                      id={notification.id}
-                      type={notification.type}
-                      value={notification.value}
-                      html={notification.html}
-                      markAsRead={() => this.markAsRead(notification.id)}
+                      key={notification.get('id')}
+                      id={notification.get('id')}
+                      type={notification.get('type')}
+                      value={notification.get('value')}
+                      html={notification.get('html')}
+                      markAsRead={() => this.markAsRead(notification.get('id'))}
                     />
                   ))
                 )}
@@ -157,6 +158,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchNotifications, // Map fetchNotifications action creator
+  markNotificationAsRead,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
