@@ -1,30 +1,37 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import CourseList from './CourseList';
 import CourseListRow from './CourseListRow';
+import { fetchCourses, selectCourse, unSelectCourse } from './courseActionCreators';
 
-describe('CourseListRow component', () => {
-  it('renders one cell with colspan = 2 when textSecondCell does not exist', () => {
-    const wrapper = shallow(<CourseListRow isHeader={true} textFirstCell="Header" />);
-    expect(wrapper.find('th')).toHaveLength(1);
-    expect(wrapper.find('th').prop('colSpan')).toEqual('2');
-    expect(wrapper.find('th').text()).toEqual('Header');
+describe('CourseList', () => {
+  it('should render without crashing', () => {
+    const wrapper = shallow(<CourseList listCourses={[]} />);
+    expect(wrapper.exists()).toBe(true);
   });
 
-  it('renders two cells when textSecondCell is present', () => {
-    const wrapper = shallow(
-      <CourseListRow isHeader={true} textFirstCell="Header 1" textSecondCell="Header 2" />
-    );
-    expect(wrapper.find('th')).toHaveLength(2);
-    expect(wrapper.find('th').at(0).text()).toEqual('Header 1');
-    expect(wrapper.find('th').at(1).text()).toEqual('Header 2');
+  it('should fetch courses on component mount', () => {
+    const fetchCoursesSpy = jest.spyOn(CourseList.prototype, 'componentDidMount');
+    shallow(<CourseList fetchCourses={fetchCourses} />);
+    expect(fetchCoursesSpy).toHaveBeenCalled();
+    fetchCoursesSpy.mockRestore();
   });
 
-  it('renders correctly two td elements within a tr element', () => {
-    const wrapper = shallow(
-      <CourseListRow isHeader={false} textFirstCell="Data 1" textSecondCell="Data 2" />
-    );
-    expect(wrapper.find('td')).toHaveLength(2);
-    expect(wrapper.find('td').at(0).text()).toEqual('Data 1');
-    expect(wrapper.find('td').at(1).text()).toEqual('Data 2');
+  it('should dispatch selectCourse action when onChangeRow is called with checked=true', () => {
+    const selectCourseSpy = jest.spyOn(CourseList.prototype, 'selectCourse');
+    const wrapper = mount(<CourseList selectCourse={selectCourseSpy} />);
+    const courseListRow = wrapper.find(CourseListRow).first();
+    courseListRow.prop('onChangeRow')(1, true);
+    expect(selectCourseSpy).toHaveBeenCalledWith(1);
+    selectCourseSpy.mockRestore();
+  });
+
+  it('should dispatch unSelectCourse action when onChangeRow is called with checked=false', () => {
+    const unSelectCourseSpy = jest.spyOn(CourseList.prototype, 'unSelectCourse');
+    const wrapper = mount(<CourseList unSelectCourse={unSelectCourseSpy} />);
+    const courseListRow = wrapper.find(CourseListRow).first();
+    courseListRow.prop('onChangeRow')(2, false);
+    expect(unSelectCourseSpy).toHaveBeenCalledWith(2);
+    unSelectCourseSpy.mockRestore();
   });
 });
