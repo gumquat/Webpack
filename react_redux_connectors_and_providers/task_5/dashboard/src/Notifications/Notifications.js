@@ -3,6 +3,9 @@ import NotificationItem from "./NotificationItem";
 import { NotificationItemShape } from "./NotificationItemShape";
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
+import { connect } from 'react-redux'; // Import connect from react-redux
+import { fetchNotifications } from './notificationActionCreators'; // Import fetchNotifications action creator
+
 
 // Animation object
 const fadeInAnimation = {
@@ -64,6 +67,10 @@ const bounceAnimation = {
     })
 
 class Notifications extends Component {
+  componentDidMount() {
+    this.props.fetchNotifications(); // Call fetchNotifications on component mount
+  }
+
   markAsRead(id) {
     console.log(`Notification ${id} has been marked as read`);
   }
@@ -74,16 +81,15 @@ class Notifications extends Component {
       nextProps.displayDrawer !== this.props.displayDrawer
     );
   }
-
-  render() {
-    const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer, markNotificationAsRead } = this.props;
-    const buttonStyle = {
-      border: 'none',
-      background: 'transparent',
-      cursor: 'pointer',
-      padding: '0'
-    };
-
+  
+    render() {
+      const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer, markNotificationAsRead } = this.props;
+      const buttonStyle = {
+        border: 'none',
+        background: 'transparent',
+        cursor: 'pointer',
+        padding: '0'
+      };
 
     return (
       <>
@@ -132,16 +138,25 @@ class Notifications extends Component {
 Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
   listNotifications: PropTypes.arrayOf(NotificationItemShape),
-  handleDisplayDrawer: PropTypes.func, // propType for handleDisplayDrawer
-  handleHideDrawer: PropTypes.func, // propType for handleHideDrawer
+  handleDisplayDrawer: PropTypes.func,
+  handleHideDrawer: PropTypes.func,
+  fetchNotifications: PropTypes.func.isRequired, // Add propType for fetchNotifications
 };
 
 Notifications.defaultProps = {
   displayDrawer: false,
   listNotifications: [],
-  handleDisplayDrawer: () => {}, // default prop for handleDisplayDrawer
-  handleHideDrawer: () => {}, // default prop for handleHideDrawer
+  handleDisplayDrawer: () => {},
+  handleHideDrawer: () => {},
   markNotificationAsRead: () => {},
 };
 
-export default Notifications;
+const mapStateToProps = state => ({
+  listNotifications: state.notifications.messages, // Map messages from state to listNotifications prop
+});
+
+const mapDispatchToProps = {
+  fetchNotifications, // Map fetchNotifications action creator
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
